@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Porudžbine — Admin — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">✦ Златна Нит</div>
+      <p class="admin-sidebar-subtitle">Admin Panel</p>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-item"><span class="icon">📊</span> Dashboard</a>
+        <a href="products.html" class="admin-nav-item"><span class="icon">📦</span> Proizvodi</a>
+        <a href="orders.html" class="admin-nav-item active"><span class="icon">🛒</span> Porudžbine</a>
+        <a href="messages.html" class="admin-nav-item"><span class="icon">💌</span> Poruke</a>
+        <div class="admin-nav-divider"></div>
+        <a href="../index.html" class="admin-nav-item"><span class="icon">🌐</span> Vidi Sajt</a>
+        <a href="#" class="admin-nav-item logout" onclick="handleLogout()"><span class="icon">🚪</span> Odjavi Se</a>
+      </nav>
+    </aside>
+    
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1>Porudžbine</h1>
+        <button class="nav-theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
+      </div>
+      
+      <!-- Stats -->
+      <div class="admin-stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: var(--space-2xl);">
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-label">Ukupno</div>
+          </div>
+          <div class="stat-icon gold">📋</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value" id="stat-new">0</div>
+            <div class="stat-label">Nove</div>
+          </div>
+          <div class="stat-icon blue">🆕</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value" id="stat-processing">0</div>
+            <div class="stat-label">U Obradi</div>
+          </div>
+          <div class="stat-icon gold">⏳</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value" id="stat-completed">0</div>
+            <div class="stat-label">Završene</div>
+          </div>
+          <div class="stat-icon green">✅</div>
+        </div>
+      </div>
+      
+      <!-- Orders Table -->
+      <div class="admin-table-wrapper">
+        <div class="admin-table-header">
+          <h3>Sve Porudžbine</h3>
+          <div style="display: flex; gap: var(--space-md);">
+            <select id="order-filter" class="form-select" style="padding: 8px 16px; font-size: var(--text-sm);" onchange="renderOrders()">
+              <option value="all">Sve</option>
+              <option value="new">Nove</option>
+              <option value="processing">U obradi</option>
+              <option value="completed">Završene</option>
+              <option value="cancelled">Otkazane</option>
+            </select>
+          </div>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Kupac</th>
+              <th>Proizvod</th>
+              <th>Kol.</th>
+              <th>Telefon</th>
+              <th>Status</th>
+              <th>Datum</th>
+              <th>Akcije</th>
+            </tr>
+          </thead>
+          <tbody id="orders-table-body"></tbody>
+        </table>
+      </div>
+      
+      <!-- Order Detail Modal -->
+      <div class="modal-overlay" id="order-modal">
+        <div class="modal">
+          <div class="modal-header">
+            <h3 class="modal-title">Detalji Porudžbine</h3>
+            <button class="modal-close" onclick="closeOrderModal()">✕</button>
+          </div>
+          <div id="order-modal-content"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    if (!DB.isAdminLoggedIn()) window.location.href = 'index.html';
+    function handleLogout() { DB.adminLogout(); window.location.href = 'index.html'; }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      renderOrderStats();
+      renderOrders();
+    });
+    
+    function renderOrderStats() {
+      const orders = DB.getAll('orders');
+      document.getElementById('stat-total').textContent = orders.length;
+      document.getElementById('stat-new').textContent = orders.filter(o => o.status === 'new').length;
+      document.getElementById('stat-processing').textContent = orders.filter(o => o.status === 'processing').length;
+      document.getElementById('stat-completed').textContent = orders.filter(o => o.status === 'completed').length;
+    }
+    
+    function renderOrders() {
+      const filter = document.getElementById('order-filter').value;
+      let orders = DB.getAll('orders').reverse();
+      
+      if (filter !== 'all') {
+        orders = orders.filter(o => o.status === filter);
+      }
+      
+      const tbody = document.getElementById('orders-table-body');
+      
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: var(--space-xl); color: var(--text-muted);">Nema porudžbina</td></tr>';
+        return;
+      }
+      
+      const statusMap = {
+        'new': '<span class="badge badge-warning">Nova</span>',
+        'processing': '<span class="badge badge-gold">U obradi</span>',
+        'completed': '<span class="badge badge-success">Završena</span>',
+        'cancelled': '<span class="badge badge-error">Otkazana</span>'
+      };
+      
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td style="font-family: monospace; font-size: var(--text-xs);">${o.id.substring(0, 12)}...</td>
+          <td><strong>${o.customerName}</strong></td>
+          <td>${(o.productTitle || '').substring(0, 30)}</td>
+          <td>${o.quantity || 1}</td>
+          <td>${o.customerPhone || '-'}</td>
+          <td>${statusMap[o.status] || statusMap['new']}</td>
+          <td>${timeAgo(o.createdAt)}</td>
+          <td>
+            <div class="actions-cell">
+              <button class="action-btn" onclick="viewOrder('${o.id}')" title="Detalji">👁️</button>
+              <button class="action-btn" onclick="changeOrderStatus('${o.id}')" title="Promeni status">🔄</button>
+              <button class="action-btn delete" onclick="deleteOrder('${o.id}')" title="Obriši">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+    
+    function viewOrder(id) {
+      const o = DB.getById('orders', id);
+      if (!o) return;
+      
+      document.getElementById('order-modal-content').innerHTML = `
+        <div style="display: grid; gap: var(--space-lg);">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+            <div><strong>Kupac:</strong><br>${o.customerName}</div>
+            <div><strong>Telefon:</strong><br>${o.customerPhone || '-'}</div>
+            <div><strong>Email:</strong><br>${o.customerEmail || '-'}</div>
+            <div><strong>Količina:</strong><br>${o.quantity || 1}</div>
+          </div>
+          <div><strong>Proizvod:</strong><br>${o.productTitle}</div>
+          <div><strong>Cena:</strong><br>${formatPrice(o.productPrice || 0)}</div>
+          ${o.personalization ? `<div><strong>Personalizacija:</strong><br>${o.personalization}</div>` : ''}
+          ${o.message ? `<div><strong>Napomena:</strong><br>${o.message}</div>` : ''}
+          <div><strong>Datum:</strong><br>${new Date(o.createdAt).toLocaleString('sr-RS')}</div>
+          <div>
+            <strong>Status:</strong><br>
+            <select class="form-select" style="margin-top: var(--space-sm);" onchange="updateOrderStatus('${o.id}', this.value)">
+              <option value="new" ${o.status==='new'?'selected':''}>Nova</option>
+              <option value="processing" ${o.status==='processing'?'selected':''}>U obradi</option>
+              <option value="completed" ${o.status==='completed'?'selected':''}>Završena</option>
+              <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Otkazana</option>
+            </select>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('order-modal').classList.add('active');
+    }
+    
+    function closeOrderModal() {
+      document.getElementById('order-modal').classList.remove('active');
+    }
+    
+    function changeOrderStatus(id) {
+      const o = DB.getById('orders', id);
+      if (!o) return;
+      const statusFlow = ['new', 'processing', 'completed'];
+      const currentIdx = statusFlow.indexOf(o.status);
+      const nextStatus = statusFlow[currentIdx + 1] || statusFlow[0];
+      updateOrderStatus(id, nextStatus);
+    }
+    
+    function updateOrderStatus(id, status) {
+      DB.update('orders', id, { status });
+      renderOrders();
+      renderOrderStats();
+      showToast('Status porudžbine je ažuriran.', 'success');
+    }
+    
+    function deleteOrder(id) {
+      if (confirm('Obrisati ovu porudžbinu?')) {
+        DB.delete('orders', id);
+        renderOrders();
+        renderOrderStats();
+        showToast('Porudžbina je obrisana.', 'success');
+      }
+    }
+  </script>
+</body>
+</html>

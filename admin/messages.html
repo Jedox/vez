@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Poruke — Admin — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">✦ Златна Нит</div>
+      <p class="admin-sidebar-subtitle">Admin Panel</p>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-item"><span class="icon">📊</span> Dashboard</a>
+        <a href="products.html" class="admin-nav-item"><span class="icon">📦</span> Proizvodi</a>
+        <a href="orders.html" class="admin-nav-item"><span class="icon">🛒</span> Porudžbine</a>
+        <a href="messages.html" class="admin-nav-item active"><span class="icon">💌</span> Poruke</a>
+        <div class="admin-nav-divider"></div>
+        <a href="../index.html" class="admin-nav-item"><span class="icon">🌐</span> Vidi Sajt</a>
+        <a href="#" class="admin-nav-item logout" onclick="handleLogout()"><span class="icon">🚪</span> Odjavi Se</a>
+      </nav>
+    </aside>
+    
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1>Poruke</h1>
+        <button class="nav-theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
+      </div>
+      
+      <!-- Stats -->
+      <div class="admin-stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: var(--space-2xl);">
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value" id="msg-total">0</div>
+            <div class="stat-label">Ukupno Poruka</div>
+          </div>
+          <div class="stat-icon blue">💌</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value" id="msg-unread">0</div>
+            <div class="stat-label">Nepročitane</div>
+          </div>
+          <div class="stat-icon gold">🆕</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value" id="msg-read">0</div>
+            <div class="stat-label">Pročitane</div>
+          </div>
+          <div class="stat-icon green">✅</div>
+        </div>
+      </div>
+      
+      <!-- Messages Table -->
+      <div class="admin-table-wrapper">
+        <div class="admin-table-header">
+          <h3>Sve Poruke</h3>
+          <div style="display: flex; gap: var(--space-md);">
+            <select id="msg-filter" class="form-select" style="padding: 8px 16px; font-size: var(--text-sm);" onchange="renderMessages()">
+              <option value="all">Sve</option>
+              <option value="unread">Nepročitane</option>
+              <option value="read">Pročitane</option>
+            </select>
+          </div>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Od</th>
+              <th>Email</th>
+              <th>Tema</th>
+              <th>Poruka</th>
+              <th>Status</th>
+              <th>Datum</th>
+              <th>Akcije</th>
+            </tr>
+          </thead>
+          <tbody id="messages-table-body"></tbody>
+        </table>
+      </div>
+      
+      <!-- Message Detail Modal -->
+      <div class="modal-overlay" id="message-modal">
+        <div class="modal">
+          <div class="modal-header">
+            <h3 class="modal-title">Detalji Poruke</h3>
+            <button class="modal-close" onclick="closeMessageModal()">✕</button>
+          </div>
+          <div id="message-modal-content"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    if (!DB.isAdminLoggedIn()) window.location.href = 'index.html';
+    function handleLogout() { DB.adminLogout(); window.location.href = 'index.html'; }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMessageStats();
+      renderMessages();
+    });
+    
+    function renderMessageStats() {
+      const messages = DB.getAll('messages');
+      document.getElementById('msg-total').textContent = messages.length;
+      document.getElementById('msg-unread').textContent = messages.filter(m => !m.read).length;
+      document.getElementById('msg-read').textContent = messages.filter(m => m.read).length;
+    }
+    
+    function renderMessages() {
+      const filter = document.getElementById('msg-filter').value;
+      let messages = DB.getAll('messages').reverse();
+      
+      if (filter === 'unread') messages = messages.filter(m => !m.read);
+      if (filter === 'read') messages = messages.filter(m => m.read);
+      
+      const tbody = document.getElementById('messages-table-body');
+      
+      if (messages.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: var(--space-xl); color: var(--text-muted);">Nema poruka</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = messages.map(m => `
+        <tr style="${!m.read ? 'font-weight: 600;' : ''}">
+          <td><strong>${m.name}</strong></td>
+          <td>${m.email}</td>
+          <td>${m.subject || '-'}</td>
+          <td>${(m.message || '').substring(0, 40)}${(m.message || '').length > 40 ? '...' : ''}</td>
+          <td>${m.read ? '<span class="badge badge-success">Pročitana</span>' : '<span class="badge badge-warning">Nova</span>'}</td>
+          <td>${timeAgo(m.createdAt)}</td>
+          <td>
+            <div class="actions-cell">
+              <button class="action-btn" onclick="viewMessage('${m.id}')" title="Pogledaj">👁️</button>
+              <button class="action-btn" onclick="toggleRead('${m.id}')" title="Označi">${m.read ? '📭' : '📬'}</button>
+              <button class="action-btn delete" onclick="deleteMessage('${m.id}')" title="Obriši">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+    
+    function viewMessage(id) {
+      const m = DB.getById('messages', id);
+      if (!m) return;
+      
+      // Mark as read
+      if (!m.read) {
+        DB.update('messages', id, { read: true });
+        renderMessageStats();
+        renderMessages();
+      }
+      
+      document.getElementById('message-modal-content').innerHTML = `
+        <div style="display: grid; gap: var(--space-lg);">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+            <div><strong>Od:</strong><br>${m.name}</div>
+            <div><strong>Email:</strong><br><a href="mailto:${m.email}" style="color: var(--text-gold);">${m.email}</a></div>
+            ${m.phone ? `<div><strong>Telefon:</strong><br>${m.phone}</div>` : ''}
+            <div><strong>Tema:</strong><br>${m.subject || '-'}</div>
+          </div>
+          <div>
+            <strong>Poruka:</strong>
+            <div style="margin-top: var(--space-sm); padding: var(--space-lg); background: var(--bg-secondary); border-radius: var(--radius-md); line-height: var(--leading-relaxed); color: var(--text-secondary);">
+              ${m.message}
+            </div>
+          </div>
+          <div><strong>Primljeno:</strong><br>${new Date(m.createdAt).toLocaleString('sr-RS')}</div>
+          <div style="display: flex; gap: var(--space-md);">
+            <a href="mailto:${m.email}?subject=Re: ${m.subject || ''}" class="btn btn-primary">Odgovori Emailom</a>
+            <button class="btn btn-secondary" onclick="closeMessageModal()">Zatvori</button>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('message-modal').classList.add('active');
+    }
+    
+    function closeMessageModal() {
+      document.getElementById('message-modal').classList.remove('active');
+    }
+    
+    function toggleRead(id) {
+      const m = DB.getById('messages', id);
+      if (m) {
+        DB.update('messages', id, { read: !m.read });
+        renderMessages();
+        renderMessageStats();
+      }
+    }
+    
+    function deleteMessage(id) {
+      if (confirm('Obrisati ovu poruku?')) {
+        DB.delete('messages', id);
+        renderMessages();
+        renderMessageStats();
+        showToast('Poruka je obrisana.', 'success');
+      }
+    }
+  </script>
+</body>
+</html>

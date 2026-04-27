@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Proizvodi — Admin — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">✦ Златна Нит</div>
+      <p class="admin-sidebar-subtitle">Admin Panel</p>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-item"><span class="icon">📊</span> Dashboard</a>
+        <a href="products.html" class="admin-nav-item active"><span class="icon">📦</span> Proizvodi</a>
+        <a href="orders.html" class="admin-nav-item"><span class="icon">🛒</span> Porudžbine</a>
+        <a href="messages.html" class="admin-nav-item"><span class="icon">💌</span> Poruke</a>
+        <div class="admin-nav-divider"></div>
+        <a href="../index.html" class="admin-nav-item"><span class="icon">🌐</span> Vidi Sajt</a>
+        <a href="#" class="admin-nav-item logout" onclick="handleLogout()"><span class="icon">🚪</span> Odjavi Se</a>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1>Proizvodi</h1>
+        <div class="admin-header-actions">
+          <button class="btn btn-primary" onclick="showAddForm()">+ Dodaj Proizvod</button>
+          <button class="nav-theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
+        </div>
+      </div>
+      
+      <!-- Add/Edit Form -->
+      <div class="admin-form-card" id="product-form-card" style="display: none; margin-bottom: var(--space-2xl);">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3 id="form-title">Dodaj Novi Proizvod</h3>
+          <button onclick="hideForm()" style="font-size: var(--text-xl); cursor: pointer; background: none; border: none; color: var(--text-secondary);">✕</button>
+        </div>
+        
+        <form id="product-form" onsubmit="handleProductSubmit(event)">
+          <input type="hidden" id="edit-product-id" value="">
+          
+          <div class="admin-form-row">
+            <div class="form-group">
+              <label class="form-label">Naziv Proizvoda *</label>
+              <input type="text" class="form-input" id="prod-title" required placeholder='Peškir za Venčanje "Zlatna Harmonija"'>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kategorija *</label>
+              <select class="form-select" id="prod-category" required>
+                <option value="">Izaberite...</option>
+                <option value="wedding">Venčanje</option>
+                <option value="baptism">Krštenje</option>
+                <option value="slava">Slava</option>
+                <option value="embroidery">Sitan Vez</option>
+                <option value="gifts">Poklon Setovi</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="admin-form-row">
+            <div class="form-group">
+              <label class="form-label">Cena (RSD) *</label>
+              <input type="number" class="form-input" id="prod-price" required min="0" placeholder="4500">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select class="form-select" id="prod-stock">
+                <option value="true">Na stanju</option>
+                <option value="false">Nema na stanju</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Kratak Opis</label>
+            <input type="text" class="form-input" id="prod-short-desc" placeholder="Kratak opis za karticu proizvoda...">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Detaljan Opis</label>
+            <textarea class="form-textarea" id="prod-description" rows="5" placeholder="Detaljan opis proizvoda..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Karakteristike (razdvojene zarezom)</label>
+            <input type="text" class="form-input" id="prod-features" placeholder="100% pamuk, Ručni rad, 150x40 cm">
+          </div>
+          
+          <div class="admin-form-row">
+            <div class="form-group">
+              <label class="form-label">Izdvojeni Proizvod</label>
+              <select class="form-select" id="prod-featured">
+                <option value="false">Ne</option>
+                <option value="true">Da</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">URL Slike</label>
+              <input type="text" class="form-input" id="prod-image" placeholder="https://...">
+            </div>
+          </div>
+          
+          <!-- Image Upload -->
+          <div class="form-group">
+            <label class="form-label">Ili Otpremite Sliku</label>
+            <div class="admin-image-upload" onclick="document.getElementById('prod-image-file').click()">
+              <div class="upload-icon">📁</div>
+              <p>Kliknite da otpremite sliku</p>
+              <p style="font-size: var(--text-xs); margin-top: var(--space-xs);">JPG, PNG, WebP — max 2MB</p>
+            </div>
+            <input type="file" id="prod-image-file" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+            <div class="admin-image-preview" id="image-preview"></div>
+          </div>
+          
+          <div style="display: flex; gap: var(--space-md); margin-top: var(--space-lg);">
+            <button type="submit" class="btn btn-primary btn-lg">Sačuvaj Proizvod</button>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="hideForm()">Otkaži</button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Products Table -->
+      <div class="admin-table-wrapper">
+        <div class="admin-table-header">
+          <h3>Svi Proizvodi (<span id="products-count">0</span>)</h3>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Proizvod</th>
+              <th>Kategorija</th>
+              <th>Cena</th>
+              <th>Status</th>
+              <th>Izdvojen</th>
+              <th>Akcije</th>
+            </tr>
+          </thead>
+          <tbody id="products-table-body">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    if (!DB.isAdminLoggedIn()) window.location.href = 'index.html';
+    function handleLogout() { DB.adminLogout(); window.location.href = 'index.html'; }
+    
+    let uploadedImages = [];
+    
+    document.addEventListener('DOMContentLoaded', renderProductsTable);
+    
+    function renderProductsTable() {
+      const products = DB.getAll('products');
+      document.getElementById('products-count').textContent = products.length;
+      
+      const tbody = document.getElementById('products-table-body');
+      
+      if (products.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: var(--space-xl);">Nema proizvoda</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = products.map(p => {
+        const img = p.images && p.images.length > 0
+          ? p.images[0]
+          : `https://placehold.co/48x48/1B2A3D/C6A962?text=${encodeURIComponent(p.title.charAt(0))}`;
+        return `
+          <tr>
+            <td>
+              <div class="product-cell">
+                <img src="${img}" class="product-thumb" alt="${p.title}">
+                <span class="product-name">${p.title}</span>
+              </div>
+            </td>
+            <td>${getCategoryName(p.category)}</td>
+            <td>${formatPrice(p.price)}</td>
+            <td>${p.inStock ? '<span class="badge badge-success">Na stanju</span>' : '<span class="badge badge-error">Nema</span>'}</td>
+            <td>${p.featured ? '<span class="badge badge-gold">Da</span>' : '-'}</td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" onclick="editProduct('${p.id}')" title="Izmeni">✏️</button>
+                <button class="action-btn delete" onclick="deleteProduct('${p.id}')" title="Obriši">🗑️</button>
+              </div>
+            </td>
+          </tr>`;
+      }).join('');
+    }
+    
+    function showAddForm() {
+      document.getElementById('product-form-card').style.display = 'block';
+      document.getElementById('form-title').textContent = 'Dodaj Novi Proizvod';
+      document.getElementById('edit-product-id').value = '';
+      document.getElementById('product-form').reset();
+      uploadedImages = [];
+      document.getElementById('image-preview').innerHTML = '';
+      document.getElementById('product-form-card').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function hideForm() {
+      document.getElementById('product-form-card').style.display = 'none';
+      document.getElementById('product-form').reset();
+      uploadedImages = [];
+    }
+    
+    function editProduct(id) {
+      const p = DB.getById('products', id);
+      if (!p) return;
+      
+      document.getElementById('product-form-card').style.display = 'block';
+      document.getElementById('form-title').textContent = 'Izmeni Proizvod';
+      document.getElementById('edit-product-id').value = id;
+      
+      document.getElementById('prod-title').value = p.title;
+      document.getElementById('prod-category').value = p.category;
+      document.getElementById('prod-price').value = p.price;
+      document.getElementById('prod-stock').value = p.inStock.toString();
+      document.getElementById('prod-short-desc').value = p.shortDescription || '';
+      document.getElementById('prod-description').value = p.description || '';
+      document.getElementById('prod-features').value = (p.features || []).join(', ');
+      document.getElementById('prod-featured').value = (p.featured || false).toString();
+      document.getElementById('prod-image').value = p.images && p.images.length > 0 ? p.images[0] : '';
+      
+      uploadedImages = p.images || [];
+      renderImagePreviews();
+      
+      document.getElementById('product-form-card').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function deleteProduct(id) {
+      if (confirm('Da li ste sigurni da želite da obrišete ovaj proizvod?')) {
+        DB.delete('products', id);
+        renderProductsTable();
+        showToast('Proizvod je obrisan.', 'success');
+      }
+    }
+    
+    function handleProductSubmit(event) {
+      event.preventDefault();
+      
+      const editId = document.getElementById('edit-product-id').value;
+      const imageUrl = document.getElementById('prod-image').value;
+      
+      let images = [...uploadedImages];
+      if (imageUrl && !images.includes(imageUrl)) {
+        images.unshift(imageUrl);
+      }
+      
+      const productData = {
+        title: document.getElementById('prod-title').value,
+        slug: generateSlug(document.getElementById('prod-title').value),
+        category: document.getElementById('prod-category').value,
+        price: parseInt(document.getElementById('prod-price').value),
+        inStock: document.getElementById('prod-stock').value === 'true',
+        shortDescription: document.getElementById('prod-short-desc').value,
+        description: document.getElementById('prod-description').value,
+        features: document.getElementById('prod-features').value.split(',').map(f => f.trim()).filter(f => f),
+        featured: document.getElementById('prod-featured').value === 'true',
+        images: images
+      };
+      
+      if (editId) {
+        DB.update('products', editId, productData);
+        showToast('Proizvod je uspešno ažuriran!', 'success');
+      } else {
+        DB.add('products', productData);
+        showToast('Novi proizvod je dodat!', 'success');
+      }
+      
+      hideForm();
+      renderProductsTable();
+    }
+    
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      if (file.size > 2 * 1024 * 1024) {
+        showToast('Slika mora biti manja od 2MB.', 'error');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedImages.push(e.target.result);
+        renderImagePreviews();
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function renderImagePreviews() {
+      const container = document.getElementById('image-preview');
+      container.innerHTML = uploadedImages.map((img, i) => `
+        <div class="preview-item">
+          <img src="${img}" alt="Preview ${i+1}">
+          <button class="remove-img" onclick="removeImage(${i})">✕</button>
+        </div>
+      `).join('');
+    }
+    
+    function removeImage(index) {
+      uploadedImages.splice(index, 1);
+      renderImagePreviews();
+    }
+  </script>
+</body>
+</html>

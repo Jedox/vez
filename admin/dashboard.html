@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard — Admin — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">✦ Златна Нит</div>
+      <p class="admin-sidebar-subtitle">Admin Panel</p>
+      
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-item active">
+          <span class="icon">📊</span> Dashboard
+        </a>
+        <a href="products.html" class="admin-nav-item">
+          <span class="icon">📦</span> Proizvodi
+        </a>
+        <a href="orders.html" class="admin-nav-item">
+          <span class="icon">🛒</span> Porudžbine
+        </a>
+        <a href="messages.html" class="admin-nav-item">
+          <span class="icon">💌</span> Poruke
+        </a>
+        <div class="admin-nav-divider"></div>
+        <a href="../index.html" class="admin-nav-item">
+          <span class="icon">🌐</span> Vidi Sajt
+        </a>
+        <a href="#" class="admin-nav-item logout" onclick="handleLogout()">
+          <span class="icon">🚪</span> Odjavi Se
+        </a>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p style="color: var(--text-secondary); font-size: var(--text-sm);">Dobrodošli nazad, Admin</p>
+        </div>
+        <div class="admin-header-actions">
+          <button class="nav-theme-toggle" onclick="toggleTheme()" aria-label="Tema">
+            <span class="theme-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Stats Cards -->
+      <div class="admin-stats-grid" id="admin-stats">
+        <!-- Rendered by JS -->
+      </div>
+      
+      <!-- Recent Orders & Messages -->
+      <div class="grid grid-2" style="gap: var(--space-xl);">
+        
+        <!-- Recent Orders -->
+        <div class="admin-table-wrapper">
+          <div class="admin-table-header">
+            <h3>Poslednje Porudžbine</h3>
+            <a href="orders.html" class="btn btn-ghost btn-sm">Vidi Sve →</a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Kupac</th>
+                <th>Proizvod</th>
+                <th>Status</th>
+                <th>Datum</th>
+              </tr>
+            </thead>
+            <tbody id="recent-orders">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Recent Messages -->
+        <div class="admin-table-wrapper">
+          <div class="admin-table-header">
+            <h3>Poslednje Poruke</h3>
+            <a href="messages.html" class="btn btn-ghost btn-sm">Vidi Sve →</a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Od</th>
+                <th>Tema</th>
+                <th>Status</th>
+                <th>Datum</th>
+              </tr>
+            </thead>
+            <tbody id="recent-messages">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    // Auth check
+    if (!DB.isAdminLoggedIn()) {
+      window.location.href = 'index.html';
+    }
+    
+    function handleLogout() {
+      DB.adminLogout();
+      window.location.href = 'index.html';
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDashboardStats();
+      renderRecentOrders();
+      renderRecentMessages();
+    });
+    
+    function renderDashboardStats() {
+      const products = DB.getAll('products');
+      const orders = DB.getAll('orders');
+      const messages = DB.getAll('messages');
+      const newOrders = orders.filter(o => o.status === 'new');
+      const unreadMessages = messages.filter(m => !m.read);
+      
+      const totalRevenue = orders.reduce((sum, o) => sum + (o.productPrice || 0) * (o.quantity || 1), 0);
+      
+      document.getElementById('admin-stats').innerHTML = `
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value">${products.length}</div>
+            <div class="stat-label">Proizvoda</div>
+          </div>
+          <div class="stat-icon gold">📦</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value">${orders.length}</div>
+            <div class="stat-label">Porudžbina (${newOrders.length} novih)</div>
+          </div>
+          <div class="stat-icon green">🛒</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value">${messages.length}</div>
+            <div class="stat-label">Poruka (${unreadMessages.length} nepročitanih)</div>
+          </div>
+          <div class="stat-icon blue">💌</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <div class="stat-value">${formatPrice(totalRevenue)}</div>
+            <div class="stat-label">Ukupan Prihod</div>
+          </div>
+          <div class="stat-icon gold">💰</div>
+        </div>
+      `;
+    }
+    
+    function renderRecentOrders() {
+      const orders = DB.getAll('orders').slice(-5).reverse();
+      const tbody = document.getElementById('recent-orders');
+      
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: var(--space-xl); color: var(--text-muted);">Nema porudžbina</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = orders.map(o => {
+        const statusMap = {
+          'new': '<span class="badge badge-warning">Nova</span>',
+          'processing': '<span class="badge badge-gold">U obradi</span>',
+          'completed': '<span class="badge badge-success">Završena</span>',
+          'cancelled': '<span class="badge badge-error">Otkazana</span>'
+        };
+        return `
+          <tr>
+            <td><strong>${o.customerName}</strong></td>
+            <td>${(o.productTitle || '').substring(0, 25)}...</td>
+            <td>${statusMap[o.status] || statusMap['new']}</td>
+            <td>${timeAgo(o.createdAt)}</td>
+          </tr>`;
+      }).join('');
+    }
+    
+    function renderRecentMessages() {
+      const messages = DB.getAll('messages').slice(-5).reverse();
+      const tbody = document.getElementById('recent-messages');
+      
+      if (messages.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: var(--space-xl); color: var(--text-muted);">Nema poruka</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = messages.map(m => `
+        <tr>
+          <td><strong>${m.name}</strong></td>
+          <td>${m.subject || 'Bez teme'}</td>
+          <td>${m.read ? '<span class="badge badge-success">Pročitana</span>' : '<span class="badge badge-warning">Nova</span>'}</td>
+          <td>${timeAgo(m.createdAt)}</td>
+        </tr>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

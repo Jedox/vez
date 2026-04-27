@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-login">
+    <div class="admin-login-card">
+      <div class="login-logo">✦ Златна Нит</div>
+      <p class="login-subtitle">Администраторски Панел</p>
+      
+      <p class="login-error" id="login-error">Pogrešno korisničko ime ili lozinka.</p>
+      
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="login-username">Korisničko Ime</label>
+          <input type="text" class="form-input" id="login-username" name="username" required placeholder="admin" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-password">Lozinka</label>
+          <input type="password" class="form-input" id="login-password" name="password" required placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: var(--space-md);">
+          Prijavite Se
+        </button>
+      </form>
+      
+      <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-xl);">
+        Demo pristup: admin / zlatnanit2025
+      </p>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script>
+    // Check if already logged in
+    if (DB.isAdminLoggedIn()) {
+      window.location.href = 'dashboard.html';
+    }
+    
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      const errorEl = document.getElementById('login-error');
+      
+      if (DB.authenticate(username, password)) {
+        DB.adminLogin();
+        window.location.href = 'dashboard.html';
+      } else {
+        errorEl.classList.add('show');
+        setTimeout(() => errorEl.classList.remove('show'), 3000);
+      }
+    }
+  </script>
+</body>
+</html>
