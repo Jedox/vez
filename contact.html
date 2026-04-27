@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kontaktirajte Zlatnu Nit za narudžbine, pitanja ili saradnju. Stojimo vam na raspolaganju.">
+  <title>Kontakt — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+      <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="nav-logo-icon">✦</span><span>Златна Нит</span></a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Početna</a>
+          <a href="about.html" class="nav-link">O Nama</a>
+          <a href="products.html" class="nav-link">Proizvodi</a>
+          <a href="gallery.html" class="nav-link">Galerija</a>
+          <a href="contact.html" class="nav-link active">Kontakt</a>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-theme-toggle" onclick="toggleTheme()" aria-label="Promeni temu"><span class="theme-icon">🌙</span></button>
+        </div>
+        <button class="nav-mobile-toggle" aria-label="Meni"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+    <div class="nav-mobile-menu">
+      <button class="nav-mobile-close" aria-label="Zatvori">✕</button>
+      <a href="index.html" class="nav-link">Početna</a><a href="about.html" class="nav-link">O Nama</a><a href="products.html" class="nav-link">Proizvodi</a><a href="gallery.html" class="nav-link">Galerija</a><a href="contact.html" class="nav-link">Kontakt</a>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container">
+        <span class="section-label">Kontakt</span>
+        <h1>Javite Nam Se</h1>
+        <p>Imate pitanje, želite narudžbinu ili predlog za saradnju? Rado ćemo vas čuti.</p>
+        <div class="breadcrumbs">
+          <a href="index.html">Početna</a>
+          <span class="separator">/</span>
+          <span class="current">Kontakt</span>
+        </div>
+      </div>
+    </div>
+
+    <main class="page-content page-transition">
+      <section>
+        <div class="container">
+          <div class="contact-grid">
+            
+            <!-- Contact Info -->
+            <div class="reveal-left">
+              <h2 style="margin-bottom: var(--space-md);">Stojimo Vam <br>Na Raspolaganju</h2>
+              <p style="color: var(--text-secondary); margin-bottom: var(--space-2xl); font-size: var(--text-md); line-height: var(--leading-relaxed);">
+                Bilo da želite da naručite personalizovani peškir, imate pitanje o našim proizvodima, ili želite da razgovaramo o posebnom projektu — tu smo za vas.
+              </p>
+              
+              <div class="contact-info-cards">
+                <div class="contact-info-card">
+                  <div class="contact-info-icon">📍</div>
+                  <div>
+                    <h4>Adresa</h4>
+                    <p>Ulica Kneza Miloša 45<br>11000 Beograd, Srbija</p>
+                  </div>
+                </div>
+                
+                <div class="contact-info-card">
+                  <div class="contact-info-icon">📞</div>
+                  <div>
+                    <h4>Telefon</h4>
+                    <p>+381 11 123 4567<br>+381 63 123 4567</p>
+                  </div>
+                </div>
+                
+                <div class="contact-info-card">
+                  <div class="contact-info-icon">✉️</div>
+                  <div>
+                    <h4>Email</h4>
+                    <p>info@zlatnanit.rs<br>narudzbine@zlatnanit.rs</p>
+                  </div>
+                </div>
+                
+                <div class="contact-info-card">
+                  <div class="contact-info-icon">🕐</div>
+                  <div>
+                    <h4>Radno Vreme</h4>
+                    <p>Ponedeljak - Petak: 09:00 - 18:00<br>Subota: 10:00 - 14:00<br>Nedelja: Zatvoreno</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div style="margin-top: var(--space-2xl);">
+                <h4 style="margin-bottom: var(--space-md);">Pratite Nas</h4>
+                <div class="footer-social" style="justify-content: flex-start;">
+                  <a href="#" aria-label="Instagram" style="border-color: var(--border-gold); color: var(--text-gold);">📷</a>
+                  <a href="#" aria-label="Facebook" style="border-color: var(--border-gold); color: var(--text-gold);">📘</a>
+                  <a href="#" aria-label="Pinterest" style="border-color: var(--border-gold); color: var(--text-gold);">📌</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="reveal-right">
+              <div class="contact-form-wrapper">
+                <h3>Pošaljite Nam Poruku</h3>
+                
+                <!-- Success message -->
+                <div id="contact-success" style="display: none; text-align: center; padding: var(--space-3xl);">
+                  <div style="font-size: 3rem; margin-bottom: var(--space-lg);">✓</div>
+                  <h3 style="color: var(--success); margin-bottom: var(--space-md);">Poruka Uspešno Poslata!</h3>
+                  <p style="color: var(--text-secondary);">Hvala vam na poruci. Odgovorićemo vam u najkraćem mogućem roku.</p>
+                </div>
+                
+                <form id="contact-form">
+                  <div class="admin-form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="contact-name">Ime i Prezime *</label>
+                      <input type="text" class="form-input" id="contact-name" name="name" required placeholder="Vaše ime">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="contact-phone">Telefon</label>
+                      <input type="tel" class="form-input" id="contact-phone" name="phone" placeholder="+381 ...">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label" for="contact-email">Email Adresa *</label>
+                    <input type="email" class="form-input" id="contact-email" name="email" required placeholder="vas@email.com">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label" for="contact-subject">Tema *</label>
+                    <select class="form-select" id="contact-subject" name="subject" required>
+                      <option value="">Izaberite temu...</option>
+                      <option value="Narudžbina">Narudžbina proizvoda</option>
+                      <option value="Personalizacija">Personalizovani proizvod</option>
+                      <option value="Informacije">Informacije o proizvodima</option>
+                      <option value="Saradnja">Poslovna saradnja</option>
+                      <option value="Reklamacija">Reklamacija</option>
+                      <option value="Ostalo">Ostalo</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label" for="contact-message">Poruka *</label>
+                    <textarea class="form-textarea" id="contact-message" name="message" required placeholder="Napišite vašu poruku ovde..." rows="5"></textarea>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    Pošaljite Poruku
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Map Section -->
+      <section style="background: var(--bg-secondary); padding: var(--space-3xl) 0;">
+        <div class="container">
+          <div class="text-center reveal">
+            <span class="section-label">Lokacija</span>
+            <h2 class="section-title">Posetite Nas</h2>
+          </div>
+          <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); height: 400px; background: var(--bg-card);">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2830.1671773774513!2d20.4567!3d44.8125!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDQ4JzQ1LjAiTiAyMMKwMjcnMjQuMCJF!5e0!3m2!1ssr!2srs!4v1234567890" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy"
+              title="Lokacija Zlatne Niti">
+            </iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo"><span>✦</span> Златна Нит</div>
+            <p>Ručno izrađeni vez i peškiri za vaše najvažnije trenutke.</p>
+            <div class="footer-social"><a href="#">📷</a><a href="#">📘</a><a href="#">📌</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Navigacija</h4>
+            <div class="footer-links"><a href="index.html">Početna</a><a href="about.html">O Nama</a><a href="products.html">Proizvodi</a><a href="gallery.html">Galerija</a><a href="contact.html">Kontakt</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kategorije</h4>
+            <div class="footer-links"><a href="products.html?category=wedding">Venčanje</a><a href="products.html?category=baptism">Krštenje</a><a href="products.html?category=slava">Slava</a><a href="products.html?category=embroidery">Sitan Vez</a><a href="products.html?category=gifts">Poklon Setovi</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kontakt</h4>
+            <div class="footer-contact-item"><span class="icon">📍</span><span>Ulica Kneza Miloša 45, Beograd</span></div>
+            <div class="footer-contact-item"><span class="icon">📞</span><span>+381 11 123 4567</span></div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Златна Нит. Сва права задржана.</p>
+          <div class="footer-bottom-links"><a href="#">Politika privatnosti</a><a href="#">Uslovi korišćenja</a></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>

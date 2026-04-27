@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Detalji proizvoda — Златна Нит premium ručni vez.">
+  <title>Proizvod — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+      <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="nav-logo-icon">✦</span><span>Златна Нит</span></a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Početna</a>
+          <a href="about.html" class="nav-link">O Nama</a>
+          <a href="products.html" class="nav-link active">Proizvodi</a>
+          <a href="gallery.html" class="nav-link">Galerija</a>
+          <a href="contact.html" class="nav-link">Kontakt</a>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-theme-toggle" onclick="toggleTheme()" aria-label="Promeni temu"><span class="theme-icon">🌙</span></button>
+        </div>
+        <button class="nav-mobile-toggle" aria-label="Meni"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+    <div class="nav-mobile-menu">
+      <button class="nav-mobile-close" aria-label="Zatvori">✕</button>
+      <a href="index.html" class="nav-link">Početna</a><a href="about.html" class="nav-link">O Nama</a><a href="products.html" class="nav-link">Proizvodi</a><a href="gallery.html" class="nav-link">Galerija</a><a href="contact.html" class="nav-link">Kontakt</a>
+    </div>
+
+    <main class="page-content page-transition">
+      
+      <!-- Breadcrumb -->
+      <div style="padding-top: 100px; background: var(--bg-secondary);">
+        <div class="container">
+          <div class="breadcrumbs" style="justify-content: flex-start; padding: var(--space-lg) 0;">
+            <a href="index.html" style="color: var(--text-muted);">Početna</a>
+            <span class="separator" style="color: var(--text-muted);">/</span>
+            <a href="products.html" style="color: var(--text-muted);">Proizvodi</a>
+            <span class="separator" style="color: var(--text-muted);">/</span>
+            <span class="current" style="color: var(--text-gold);" id="breadcrumb-product-title">Proizvod</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Detail -->
+      <section class="product-detail" style="padding-top: var(--space-xl);">
+        <div class="container" id="product-detail-container">
+          <!-- Rendered by JS -->
+          <div style="text-align: center; padding: var(--space-4xl);">
+            <div class="spinner" style="margin: 0 auto;"></div>
+            <p style="margin-top: var(--space-lg); color: var(--text-muted);">Učitavanje proizvoda...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Related Products -->
+      <section style="background: var(--bg-secondary);">
+        <div class="container">
+          <div class="text-center reveal">
+            <span class="section-label">Slični Proizvodi</span>
+            <h2 class="section-title">Možda Vam Se Svidi</h2>
+          </div>
+          <div class="products-grid" id="related-products">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo"><span>✦</span> Златна Нит</div>
+            <p>Ručno izrađeni vez i peškiri za vaše najvažnije trenutke.</p>
+            <div class="footer-social"><a href="#">📷</a><a href="#">📘</a><a href="#">📌</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Navigacija</h4>
+            <div class="footer-links"><a href="index.html">Početna</a><a href="about.html">O Nama</a><a href="products.html">Proizvodi</a><a href="gallery.html">Galerija</a><a href="contact.html">Kontakt</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kategorije</h4>
+            <div class="footer-links"><a href="products.html?category=wedding">Venčanje</a><a href="products.html?category=baptism">Krštenje</a><a href="products.html?category=slava">Slava</a><a href="products.html?category=embroidery">Sitan Vez</a><a href="products.html?category=gifts">Poklon Setovi</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kontakt</h4>
+            <div class="footer-contact-item"><span class="icon">📍</span><span>Ulica Kneza Miloša 45, Beograd</span></div>
+            <div class="footer-contact-item"><span class="icon">📞</span><span>+381 11 123 4567</span></div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Златна Нит. Сва права задржана.</p>
+          <div class="footer-bottom-links"><a href="#">Politika privatnosti</a><a href="#">Uslovi korišćenja</a></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/products.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pregledajte našu kolekciju ručno vezenih peškira, setova za venčanje i krštenje, sitnog veza i luksuznih poklon setova.">
+  <title>Proizvodi — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+      <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="nav-logo-icon">✦</span><span>Златна Нит</span></a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Početna</a>
+          <a href="about.html" class="nav-link">O Nama</a>
+          <a href="products.html" class="nav-link active">Proizvodi</a>
+          <a href="gallery.html" class="nav-link">Galerija</a>
+          <a href="contact.html" class="nav-link">Kontakt</a>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-theme-toggle" onclick="toggleTheme()" aria-label="Promeni temu"><span class="theme-icon">🌙</span></button>
+        </div>
+        <button class="nav-mobile-toggle" aria-label="Meni"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+    <div class="nav-mobile-menu">
+      <button class="nav-mobile-close" aria-label="Zatvori">✕</button>
+      <a href="index.html" class="nav-link">Početna</a><a href="about.html" class="nav-link">O Nama</a><a href="products.html" class="nav-link">Proizvodi</a><a href="gallery.html" class="nav-link">Galerija</a><a href="contact.html" class="nav-link">Kontakt</a>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container">
+        <span class="section-label">Kolekcija</span>
+        <h1>Naši Proizvodi</h1>
+        <p>Pregledajte našu pažljivo izrađenu kolekciju ručno vezenih proizvoda za svaku priliku.</p>
+        <div class="breadcrumbs">
+          <a href="index.html">Početna</a>
+          <span class="separator">/</span>
+          <span class="current">Proizvodi</span>
+        </div>
+      </div>
+    </div>
+
+    <main class="page-content page-transition">
+      <section>
+        <div class="container">
+          <div class="catalog-layout">
+            
+            <!-- Sidebar -->
+            <aside class="catalog-sidebar">
+              <div class="catalog-sidebar-section">
+                <h4>Pretraga</h4>
+                <div class="catalog-search">
+                  <span class="catalog-search-icon">🔍</span>
+                  <input type="text" id="catalog-search-input" placeholder="Pretražite proizvode...">
+                </div>
+              </div>
+              
+              <div class="catalog-sidebar-section">
+                <h4>Kategorije</h4>
+                <div class="catalog-category-list">
+                  <div class="catalog-category-item active" data-category="all">
+                    <span>Sve Kategorije</span>
+                    <span class="catalog-category-count" id="count-all"></span>
+                  </div>
+                  <div class="catalog-category-item" data-category="wedding">
+                    <span>💍 Venčanje</span>
+                    <span class="catalog-category-count" id="count-wedding"></span>
+                  </div>
+                  <div class="catalog-category-item" data-category="baptism">
+                    <span>👶 Krštenje</span>
+                    <span class="catalog-category-count" id="count-baptism"></span>
+                  </div>
+                  <div class="catalog-category-item" data-category="slava">
+                    <span>🕯️ Slava</span>
+                    <span class="catalog-category-count" id="count-slava"></span>
+                  </div>
+                  <div class="catalog-category-item" data-category="embroidery">
+                    <span>🧵 Sitan Vez</span>
+                    <span class="catalog-category-count" id="count-embroidery"></span>
+                  </div>
+                  <div class="catalog-category-item" data-category="gifts">
+                    <span>🎁 Poklon Setovi</span>
+                    <span class="catalog-category-count" id="count-gifts"></span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="catalog-sidebar-section">
+                <h4>Cenovni Rang</h4>
+                <div class="catalog-category-list">
+                  <div class="pill" onclick="filterByPrice(0, 3000)">Do 3.000 RSD</div>
+                  <div class="pill" onclick="filterByPrice(3000, 7000)" style="margin-top: var(--space-sm);">3.000 - 7.000 RSD</div>
+                  <div class="pill" onclick="filterByPrice(7000, 15000)" style="margin-top: var(--space-sm);">7.000 - 15.000 RSD</div>
+                  <div class="pill" onclick="filterByPrice(15000, 99999)" style="margin-top: var(--space-sm);">15.000+ RSD</div>
+                </div>
+              </div>
+            </aside>
+            
+            <!-- Products Grid -->
+            <div>
+              <div class="catalog-toolbar">
+                <span class="catalog-count" id="catalog-count">15 proizvoda</span>
+                <div class="catalog-sort">
+                  <label>Sortiranje:</label>
+                  <select id="catalog-sort">
+                    <option value="newest">Najnovije</option>
+                    <option value="price-asc">Cena: niska → visoka</option>
+                    <option value="price-desc">Cena: visoka → niska</option>
+                    <option value="name-asc">Naziv: A → Z</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="products-grid" id="catalog-products-grid">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo"><span>✦</span> Златна Нит</div>
+            <p>Ručno izrađeni vez i peškiri za vaše najvažnije trenutke.</p>
+            <div class="footer-social"><a href="#">📷</a><a href="#">📘</a><a href="#">📌</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Navigacija</h4>
+            <div class="footer-links"><a href="index.html">Početna</a><a href="about.html">O Nama</a><a href="products.html">Proizvodi</a><a href="gallery.html">Galerija</a><a href="contact.html">Kontakt</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kategorije</h4>
+            <div class="footer-links"><a href="products.html?category=wedding">Venčanje</a><a href="products.html?category=baptism">Krštenje</a><a href="products.html?category=slava">Slava</a><a href="products.html?category=embroidery">Sitan Vez</a><a href="products.html?category=gifts">Poklon Setovi</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kontakt</h4>
+            <div class="footer-contact-item"><span class="icon">📍</span><span>Ulica Kneza Miloša 45, Beograd</span></div>
+            <div class="footer-contact-item"><span class="icon">📞</span><span>+381 11 123 4567</span></div>
+            <div class="footer-contact-item"><span class="icon">✉️</span><span>info@zlatnanit.rs</span></div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Златна Нит. Сва права задржана.</p>
+          <div class="footer-bottom-links"><a href="#">Politika privatnosti</a><a href="#">Uslovi korišćenja</a></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/products.js"></script>
+  <script>
+    // Update category counts
+    document.addEventListener('DOMContentLoaded', () => {
+      const products = DB.getAll('products');
+      document.getElementById('count-all').textContent = products.length;
+      document.getElementById('count-wedding').textContent = products.filter(p => p.category === 'wedding').length;
+      document.getElementById('count-baptism').textContent = products.filter(p => p.category === 'baptism').length;
+      document.getElementById('count-slava').textContent = products.filter(p => p.category === 'slava').length;
+      document.getElementById('count-embroidery').textContent = products.filter(p => p.category === 'embroidery').length;
+      document.getElementById('count-gifts').textContent = products.filter(p => p.category === 'gifts').length;
+    });
+    
+    function filterByPrice(min, max) {
+      // Simple price filter - mark pill as active and re-render
+      document.querySelectorAll('.catalog-sidebar-section .pill').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      const searchInput = document.getElementById('catalog-search-input');
+      const sortSelect = document.getElementById('catalog-sort');
+      const grid = document.getElementById('catalog-products-grid');
+      
+      let products = DB.getAll('products').filter(p => p.price >= min && p.price <= max);
+      
+      const category = document.querySelector('.catalog-category-item.active')?.dataset.category;
+      if (category && category !== 'all') {
+        products = products.filter(p => p.category === category);
+      }
+      
+      if (searchInput && searchInput.value) {
+        const q = searchInput.value.toLowerCase();
+        products = products.filter(p => 
+          p.title.toLowerCase().includes(q) || 
+          p.shortDescription.toLowerCase().includes(q)
+        );
+      }
+      
+      const countEl = document.getElementById('catalog-count');
+      if (countEl) countEl.textContent = `${products.length} proizvoda`;
+      
+      grid.innerHTML = products.length > 0
+        ? products.map(p => getProductCardHTML(p)).join('')
+        : '<div style="grid-column: 1/-1; text-align: center; padding: 4rem 0;"><h3>Nema proizvoda u ovom cenovnom rangu</h3></div>';
+    }
+  </script>
+</body>
+</html>

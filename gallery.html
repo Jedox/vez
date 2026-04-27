@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pogledajte galeriju naših ručno izrađenih vezova, peškira i luksuznih tekstilnih proizvoda.">
+  <title>Galerija — Златна Нит</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+      <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="nav-logo-icon">✦</span><span>Златна Нит</span></a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Početna</a>
+          <a href="about.html" class="nav-link">O Nama</a>
+          <a href="products.html" class="nav-link">Proizvodi</a>
+          <a href="gallery.html" class="nav-link active">Galerija</a>
+          <a href="contact.html" class="nav-link">Kontakt</a>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-theme-toggle" onclick="toggleTheme()" aria-label="Promeni temu"><span class="theme-icon">🌙</span></button>
+        </div>
+        <button class="nav-mobile-toggle" aria-label="Meni"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+    <div class="nav-mobile-menu">
+      <button class="nav-mobile-close" aria-label="Zatvori">✕</button>
+      <a href="index.html" class="nav-link">Početna</a><a href="about.html" class="nav-link">O Nama</a><a href="products.html" class="nav-link">Proizvodi</a><a href="gallery.html" class="nav-link">Galerija</a><a href="contact.html" class="nav-link">Kontakt</a>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container">
+        <span class="section-label">Galerija</span>
+        <h1>Naši Radovi</h1>
+        <p>Zavirite u svet ručnog veza — svaki komad je priča za sebe.</p>
+        <div class="breadcrumbs">
+          <a href="index.html">Početna</a>
+          <span class="separator">/</span>
+          <span class="current">Galerija</span>
+        </div>
+      </div>
+    </div>
+
+    <main class="page-content page-transition">
+      <section>
+        <div class="container">
+          <!-- Filters -->
+          <div class="gallery-filters reveal">
+            <button class="pill active gallery-filter-btn" data-category="all">Sve</button>
+            <button class="pill gallery-filter-btn" data-category="wedding">💍 Venčanje</button>
+            <button class="pill gallery-filter-btn" data-category="baptism">👶 Krštenje</button>
+            <button class="pill gallery-filter-btn" data-category="slava">🕯️ Slava</button>
+            <button class="pill gallery-filter-btn" data-category="embroidery">🧵 Sitan Vez</button>
+            <button class="pill gallery-filter-btn" data-category="gifts">🎁 Pokloni</button>
+          </div>
+          
+          <!-- Gallery Masonry Grid -->
+          <div class="gallery-masonry" id="gallery-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Instagram CTA -->
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-content reveal">
+            <h2>Pratite Nas na <span style="color: var(--gold-300);">Instagramu</span></h2>
+            <p>Svakodnevno delimo nove radove, procese izrade i inspiraciju. Pridružite se našoj zajednici ljubitelja ručnog veza.</p>
+            <a href="https://instagram.com" target="_blank" class="btn btn-primary btn-lg">📷 @zlatna.nit</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo"><span>✦</span> Златна Нит</div>
+            <p>Ručno izrađeni vez i peškiri za vaše najvažnije trenutke.</p>
+            <div class="footer-social"><a href="#">📷</a><a href="#">📘</a><a href="#">📌</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Navigacija</h4>
+            <div class="footer-links"><a href="index.html">Početna</a><a href="about.html">O Nama</a><a href="products.html">Proizvodi</a><a href="gallery.html">Galerija</a><a href="contact.html">Kontakt</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kategorije</h4>
+            <div class="footer-links"><a href="products.html?category=wedding">Venčanje</a><a href="products.html?category=baptism">Krštenje</a><a href="products.html?category=slava">Slava</a><a href="products.html?category=embroidery">Sitan Vez</a><a href="products.html?category=gifts">Poklon Setovi</a></div>
+          </div>
+          <div>
+            <h4 class="footer-heading">Kontakt</h4>
+            <div class="footer-contact-item"><span class="icon">📍</span><span>Ulica Kneza Miloša 45, Beograd</span></div>
+            <div class="footer-contact-item"><span class="icon">📞</span><span>+381 11 123 4567</span></div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Златна Нит. Сва права задржана.</p>
+          <div class="footer-bottom-links"><a href="#">Politika privatnosti</a><a href="#">Uslovi korišćenja</a></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/gallery.js"></script>
+</body>
+</html>
